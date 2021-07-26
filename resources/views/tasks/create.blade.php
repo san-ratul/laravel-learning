@@ -11,7 +11,11 @@
                     @csrf
                     <div class="form-group">
                         <label for="title">Task Title</label>
-                        <input type="text" class="form-control" name="title" placeholder="Please type title here"/>
+                        <input type="text" class="form-control" name="title" placeholder="Please type title here"
+                               value="{{old('title')}}"/>
+                        @error('title')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <input type="submit" value="Save" class="btn btn-success">
                 </form>

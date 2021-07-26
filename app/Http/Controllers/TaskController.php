@@ -10,7 +10,9 @@ class TaskController extends Controller
     //
     public function index()
     {
-
+        $tasks = Task::latest()->get();
+//        return view('tasks.index')->with('tasks', $tasks);
+        return view('tasks.index', compact('tasks'));
     }
 
     public function create()
@@ -20,8 +22,11 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-       Task::create($request->all());
-       return "Task Stored";
+        $this->validate($request, [
+            'title' => ['required', 'unique:tasks']
+        ]);
+        Task::create($request->all());
+        return redirect()->route('tasks.index')->with('success', 'Task added successfully');
     }
 
 }
