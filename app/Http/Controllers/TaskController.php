@@ -25,8 +25,31 @@ class TaskController extends Controller
         $this->validate($request, [
             'title' => ['required', 'unique:tasks']
         ]);
-        Task::create($request->all());
+        Task::create([
+            'title' => $request->title,
+        ]);
         return redirect()->route('tasks.index')->with('success', 'Task added successfully');
+    }
+
+    public function edit(Task $task){
+        return view('tasks.edit', compact('task'));
+    }
+
+    public function update(Task $task, Request $request){
+        $this->validate($request, [
+            'title' => ['required', 'unique:tasks,title,'.$task->id]
+        ]);
+
+        $task->update([
+            'title' => $request->title,
+            'completed' => $request->completed,
+        ]);
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully');
+    }
+
+    public function destroy(Task $task){
+        $task->delete();
+        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
     }
 
 }
