@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +24,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource('/users', UserController::class)->except(['create', 'destroy', 'store']);
+
+Route::get('role/create', [RolePermissionController::class, 'createRole']);
 
 require __DIR__.'/auth.php';
